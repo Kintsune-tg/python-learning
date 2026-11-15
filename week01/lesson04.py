@@ -36,6 +36,13 @@ print(prices.keys(), prices.values())
 # Что будет, если обратиться к employee["phone"]? Предскажи, потом проверь.
 # А если employee.get("phone", "нет данных")?
 
+employee1 = {"name": "Anna", "age": 28, "city": "Moscow", "salary": 90000}
+employee2 = {"name": "Ellis", "age": 24, "city": "New York", "salary": 520000}
+#Если обратиться к несуществующему ключу, будет ошибка ключа.
+#employee.get поможет, он вернет 0 ИЛИ иное значение, которое ты записал после запятой.
+print(f"{employee1["name"]}, {employee1["age"]} лет, {employee1["city"]}, зарплата {employee1["salary"]}")
+print(f"{employee2["name"]}, {employee2["age"]} лет, {employee2["city"]}, зарплата {employee2["salary"]}")
+
 
 # ---------------------------------------------------------------
 # ЗАДАНИЕ 2. Изменение
@@ -44,8 +51,15 @@ print(prices.keys(), prices.values())
 # 2) Увеличь salary на 10% (подсказка: employee["salary"] = employee["salary"] * 1.1).
 # 3) Удали ключ "city".
 # 4) Выведи словарь и проверь через `in`: есть ли "city"? есть ли "position"?
+employee1["position"] = "Analyst"
+employee1["old_salary"] = employee1["salary"]
+employee1["salary"] = round(employee1["salary"] * 1.1)
+del employee1["city"]
+print(f"{employee1["name"]}, {employee1['age']} лет. Зарплата выросла с {employee1['old_salary']} на {employee1['salary']}")
 
-
+print(employee1)
+print("city" in employee1)
+print("position" in employee1)
 # ---------------------------------------------------------------
 # ЗАДАНИЕ 3. Цикл по словарю
 # ---------------------------------------------------------------
@@ -55,6 +69,17 @@ stock = {"ноутбук": 5, "мышь": 40, "монитор": 0, "клавиа
 # 3) Посчитай общее количество всех товаров (накопление через total, как в уроке 3).
 #    Проверь себя через sum(stock.values()).
 
+for name, qty in stock.items():
+    print(f"Наименование товара {name}. Количество товара ровно {qty} шт.")
+
+for name, qty in stock.items():
+    if qty == 0:
+        print(name)
+
+total = 0
+for name, qty in stock.items():
+    total = total + qty
+    print(f"Общая сумма количества ровно {total}")
 
 # ---------------------------------------------------------------
 # ЗАДАНИЕ 4. Подсчёт (самое частое применение словаря в аналитике)
@@ -67,8 +92,17 @@ cities = ["Москва", "Казань", "Москва", "Сочи", "Каза�
 #       counts[city] = counts.get(city, 0) + 1
 # Сначала разбери КАЖДЫЙ шаг цикла на бумаге, потом запусти.
 # Потом выведи город с максимальным числом (подсказка: for + if, как в задании 5 урока 3).
+result = {} #Почему не 0?
+for city in cities: #Объявили переменую City в справочнике Cities
+    result[city] = result.get(city, 0) + 1 #Написали функцию расчета переменной, а что там написано, не знаю
 
-
+best_count = 0
+best_city = ""
+for city, n in result.items():
+    if n > best_count:
+        best_count = n
+        best_city = city
+print(f"Лучший город {best_city} с количество равным {best_count}")
 # ---------------------------------------------------------------
 # ЗАДАНИЕ 5. Список словарей (так выглядят реальные данные, как строки таблицы)
 # ---------------------------------------------------------------
@@ -85,7 +119,27 @@ orders = [
 # 4) Посчитай сумму заказов по каждому клиенту: {"Анна": 3300, "Борис": 3050, "Вера": 450}
 #    (то же, что в задании 4, только вместо +1 прибавляй amount).
 
+for i in orders:
+    print(f"Заказ {i['id']} по стоимости {i['amount']}")
 
+total2 = 0
+for order in orders:
+    total2 = total2 + order["amount"]
+    print(f"Общая сумма заказов {total2}")
+
+
+total3 = 0
+best_count2 = 0
+for order_sum1000 in orders:
+    if order_sum1000["amount"] > 1000:
+        total3 = total3 + order_sum1000["amount"]
+        best_count2 = best_count2 + 1
+        print(f"Сумма заказов, которые более 1000 равно {total3}. Количество заказов таких {best_count2}")
+
+result2 = {}
+for order in orders: 
+    result2[order["client"]] = result2.get(order["client"], 0) + order["amount"]    
+print(result2)
 # ---------------------------------------------------------------
 # БОНУС (по желанию)
 # ---------------------------------------------------------------
